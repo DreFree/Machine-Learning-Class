@@ -2,9 +2,8 @@
 #Last Updated: 28/4/2018
 import numpy as np
 import cv2
-import matplotlib.pyplot as plt
 import random as rand
-from sklearn.linear_model import SGDClassifier
+
 
 ###############################################################
 ##Read in image and convert to a 1-D array using flattern function
@@ -104,7 +103,10 @@ Iprime=np.zeros(H*W)
 ##Mathematical operation for calculating Iprime
 for i in range (0,H*W):
     if w[i+1][2]==0: #Cant div by 0
-        Iprime[i]=255
+        if ((Eprime[i]-(w[i+1][0]*K1[i])-(w[i+1][1]*K2[i]))==0):
+            Iprime[i]=0
+        else:
+            Iprime[i]=0
     else:
         Iprime[i]=round((Eprime[i]-(w[i+1][0]*K1[i])-(w[i+1][1]*K2[i]))/w[i+1][2],0)
 
