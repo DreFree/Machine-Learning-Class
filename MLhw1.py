@@ -38,22 +38,12 @@ c=rand.randint(0,2)-1
 w[0][0]=a
 w[0][1]=b
 w[0][2]=c
-#w[0]=[0.,0.,0.]
-#w[1]=[1.,1.,1.]
-
 
 ##Testing read in and flattern function
 print ("W:")
 print(W)
 print ("H:")
 print(H)
-
-print ("K1: ")
-print (K1[0])
-print("K2: ")
-print (K2[0])
-print ("I: ")
-print (I[0])
 print("Starting w:")
 print(w[0])
 
@@ -61,7 +51,7 @@ print(w[0])
 def epi(a,b):
     dif=0
     for i in range(0,3):
-        dif+=abs(a[i]-b[i])
+        dif+=a[i]-b[i]
     return dif
 
 ##Altered Function to Multiply to Matrix since multiplication is 3 by 1 agaisnt a 1 by 3
@@ -92,39 +82,35 @@ def plus(A,B):
         C[i]=A[i]+B[i]
     return C      
 
-##Testing
-min=0.
-
+##################################################################################
+##Finding w1, w2 and w3 
 while (Epoch==1 or (Epoch<max_iter and abs(epi(w[Epoch],w[Epoch-1]))>epsilon)):
-    print("Epoch:")
-    print(Epoch)
     for k in range(0,H*W):#Range is only 0 - 19 now for testing sake
-        
         x=np.array([K1[k],K2[k],I[k]])#Let x be a matrix combined of K1, K2 and I
         a=A(w[k],x)
         e=E[k]-a
         w[k+1]=plus(w[k],S(x,(alpha*e)))
-    print("epi: ")
-    
-    Epoch+=1 #Epoch++ doesnot work yet since this is not set up to be 3-D yet
-    print(epi(w[Epoch],w[Epoch-1]))
-    
+    Epoch+=1
 
-bestw=[w[Epoch-1]]
+################################################################3
+##Decrypting the Eprime image
+##Load Eprime image and flatten to a 1D array
 eprime=cv2.imread('Eprime.png',0)
 Eprime=eprime.flatten()
+
+##Declare a 1D new data structure for the decrypted image 'Iprime'
 Iprime=np.zeros(H*W)
 
+##Mathematical operation for calculating Iprime
 for i in range (0,H*W):
-    if w[i][2]==0:
-         Iprime[i]=0
+    if w[i+1][2]==0: #Cant div by 0
+        Iprime[i]=255
     else:
-        Iprime[i]=(Eprime[i]-(w[i][0]*K1[i])-(w[i][1]*K2[i]))/w[i][2]
+        Iprime[i]=round((Eprime[i]-(w[i+1][0]*K1[i])-(w[i+1][1]*K2[i]))/w[i+1][2],0)
 
+##Restructure Iprime to being a 2D array named 'iprime'
 iprime=np.reshape(Iprime,(-1,400))
-print(eprime.shape[:2])
-print(iprime.shape[:2])
-#print(len(iprime))
-#print(len(iprime[0]))
-print(Iprime)
+
+##Write back Iprime to computer memory
 cv2.imwrite('Iprime.png',iprime)
+print("Complete")
