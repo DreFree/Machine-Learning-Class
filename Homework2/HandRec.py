@@ -49,11 +49,10 @@ def croping(img):
     
 def analyze(img):
     pca=PCA(n_components=28)
-    #FisherLDA external code
-    
     len,wid=np.shape(img)
    
     pca.fit(img)
+    #FisherLDA external code
     #flda=mainFisherLDAtest([pca.singular_values_],0.5)
     #print("flda:  ",flda)
     #print("pca: ",pca.singular_values_)
