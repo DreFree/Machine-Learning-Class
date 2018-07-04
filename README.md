@@ -6,6 +6,7 @@ Homework1: <br>
 Neural Netork Programming Assignmenr 1: Imange Decryption by a Single-Layer Neural Netork
 
 Homework2:<br>
+HandwrittenCharacter Recognition
 
 Term Project: <br>
 Facial Recognition and Detection<br>
