@@ -210,6 +210,7 @@ for i in range(l):
 
 print("CHaracters learned: ",len(clf.classes_))
 print("Total number of training samples: ",Lx)
+print("Total number of test samples: ",l)
 print("Support Vector MAchine Detection accuracy: ",float(float(correct)/float(testnum))*100)
 print("Naive Bayes MultinomialNB Detection accuracy: ",float(float(correct2)/float(testnum))*100)
 print("K-nearest neighbor accuracy: ",float(float(correct3)/float(testnum))*100)
